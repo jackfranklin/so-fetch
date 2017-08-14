@@ -1,0 +1,21 @@
+{
+  "extends": [
+    "standard"
+  ],
+  "env": {
+    "browser": true
+  },
+  "globals": {
+    "it": true,
+    "expect": true,
+    "describe": true,
+    "jest": true,
+    "fail": true
+  },
+  "rules": {
+    "semi": ["error", "never"],
+    "space-before-function-paren": [ "error", "never" ],
+    "comma-dangle": ["error", "always-multiline"]
+  },
+  "plugins": []
+}
