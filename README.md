@@ -7,8 +7,8 @@ A small wrapper around the fetch API with some additional behaviours.
 Install this module with npm or yarn.
 
 ```bash
-yarn add so-fetch
-npm install so-fetch
+yarn add so-fetch-js
+npm install so-fetch-js
 ```
 
 This module is designed to be consumed via a build tool such as Webpack. There is no UMD build available.
