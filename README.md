@@ -25,7 +25,9 @@ You will also need to provide your own polyfill for the `fetch` API if you're wo
 - Although it parses the response as JSON, it resolves with the full `Response` object. To access the body you should call the `.data` key:
 
     ```js
-    apiClient.fetch('/users').then(response => {
+    import fetch from 'so-fetch-js'
+
+    fetch('/users').then(response => {
       console.log(response.data) // the response body, parsed to a JS object
     })
     ```
@@ -33,11 +35,12 @@ You will also need to provide your own polyfill for the `fetch` API if you're wo
 - Unlike `fetch`, `so-fetch` will reject any response that does not have a `2XX` status code. When this happens, you can still read the JSON response using `.data`:
 
     ```js
-    apiClient.fetch('/users').then(response => {
+    import fetch from 'so-fetch-js'
+
+    fetch('/users').then(response => {
       ...
     }, errorResponse => {
       console.log(respones.data) // response body still, even though the request failed
-
     })
     ```
 
@@ -46,7 +49,7 @@ You will also need to provide your own polyfill for the `fetch` API if you're wo
 You can just import and start using `so-fetch`:
 
 ```js
-import fetch from 'so-fetch'
+import fetch from 'so-fetch-js'
 
 fetch('http://example.com/api').then(response => ...)
 ```
@@ -58,7 +61,7 @@ To use `so-fetch`'s more advanced features, you will need to create clients.
 To use so-fetch, you should first import it and instantiate a new client:
 
 ```js
-import fetch from 'so-fetch'
+import fetch from 'so-fetch-js'
 const apiClient = fetch.makeClient({
   ...
 })
