@@ -40,7 +40,7 @@ You will also need to provide your own polyfill for the `fetch` API if you're wo
     fetch('/users').then(response => {
       ...
     }, errorResponse => {
-      console.log(respones.data) // response body still, even though the request failed
+      console.log(errorResponse.data) // response body still, even though the request failed
     })
     ```
 
