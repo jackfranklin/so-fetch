@@ -34,11 +34,11 @@ You will also need to provide your own polyfill for the `fetch` API if you're wo
 
 - Unlike `fetch`, `so-fetch` will reject any response that does not have a `2XX` status code. When this happens, you can still read the JSON response using `.data`:
 
-    ```js
+    ```js    
     import fetch from 'so-fetch-js'
 
     fetch('/users').catch(errorResponse => {
-      console.log(errorResponse.data) // response body still, even though the request failed
+      console.log(errorResponse.data) // response body still, even though the request failed
     })
     ```
 
