@@ -2,7 +2,7 @@
   "name": "so-fetch-js",
   "version": "0.1.0",
   "description": "A nice wrapper around the fetch API with some extras",
-  "browser": "umd/so-fetch.umd.js",
+  "browser": "umd/so-fetch.min.js",
   "main": "lib/so-fetch.js",
   "module": "lib/so-fetch.esm.js",
   "author": "Jack Franklin",
