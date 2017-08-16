@@ -41,12 +41,10 @@ export default [
       {dest: pkg.main, format: 'cjs'},
       {dest: pkg.module, format: 'es'},
     ],
-    sourceMap: true,
     plugins: [
       resolve(),
       commonjs(Object.assign({}, commonjsOptions)),
       babel(),
-      uglify(),
     ],
   },
 ]
