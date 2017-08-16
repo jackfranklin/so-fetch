@@ -2,20 +2,24 @@
   "name": "so-fetch-js",
   "version": "0.1.0",
   "description": "A nice wrapper around the fetch API with some extras",
-  "main": "lib/index.js",
+  "browser": "umd/so-fetch.umd.js",
+  "main": "lib/so-fetch.js",
+  "module": "lib/so-fetch.esm.js",
   "author": "Jack Franklin",
   "license": "MIT",
   "scripts": {
-    "test": "yarn run lint && yarn run prettier:check:all && yarn run jest --runInBand",
+    "test": "yarn run lint && yarn run prettier:check:all && NODE_ENV=test yarn run jest --runInBand",
     "test:watch": "jest --watch",
-    "babel": "babel src -d lib/ --ignore *.test.js",
-    "prepublish": "yarn test && yarn run babel",
+    "build": "rollup -c",
+    "dev": "rollup -c -w",
+    "prepublish": "yarn test && yarn run build",
     "lint": "eslint src spec",
     "prettier:check:all": "prettier-scripts-check --no-semi --single-quote --trailing-comma es5 --targets '{src,spec}/**/*.js'",
     "prettier:write:all": "prettier-scripts-write --no-semi --single-quote --trailing-comma es5 --targets '{src,spec}/**/*.js'"
   },
   "files": [
-    "lib"
+    "lib",
+    "umd"
   ],
   "jest": {
     "setupTestFrameworkScriptFile": "./test-setup.js"
@@ -23,6 +27,7 @@
   "devDependencies": {
     "babel-cli": "6.24.1",
     "babel-eslint": "^7.2.3",
+    "babel-jest": "^20.0.3",
     "babel-plugin-transform-object-rest-spread": "6.23.0",
     "babel-preset-es2015": "6.24.1",
     "eslint": "^4.4.1",
@@ -36,6 +41,11 @@
     "jest": "^20.0.4",
     "prettier": "^1.5.3",
     "prettier-scripts": "^0.3.0",
+    "rollup": "^0.47.4",
+    "rollup-plugin-babel": "^3.0.2",
+    "rollup-plugin-commonjs": "^8.1.0",
+    "rollup-plugin-node-resolve": "^3.0.0",
+    "rollup-plugin-uglify-es": "^0.0.1",
     "whatwg-fetch": "2.0.3"
   }
 }
