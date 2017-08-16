@@ -8,7 +8,7 @@
   "scripts": {
     "test": "yarn run lint && yarn run prettier:check:all && yarn run jest --runInBand",
     "test:watch": "jest --watch",
-    "babel": "babel src -d lib/",
+    "babel": "babel src -d lib/ --ignore *.test.js",
     "prepublish": "yarn test && yarn run babel",
     "lint": "eslint src spec",
     "prettier:check:all": "prettier-scripts-check --no-semi --single-quote --trailing-comma es5 --targets '{src,spec}/**/*.js'",
