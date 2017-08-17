@@ -1,8 +1,5 @@
-require('es6-promise').polyfill()
-require('es6-object-assign').polyfill()
-
-// use require here because imports are hosted
-// and the order here is important
-const soFetch = require('./index')
+import 'isomorphic-fetch'
+import 'es6-object-assign/auto'
+import soFetch from './index'
 
 export default soFetch
