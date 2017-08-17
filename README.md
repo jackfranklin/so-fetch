@@ -11,7 +11,7 @@ yarn add so-fetch-js
 npm install so-fetch-js
 ```
 
-This module is designed to be consumed via a build tool such as Webpack. There is no UMD build available.
+This module is designed to be consumed via a build tool such as Webpack.
 
 You will also need to provide your own polyfill for the `fetch` API if you're working in older browsers. [whatwg-fetch](https://www.npmjs.com/package/whatwg-fetch) is recommended. `so-fetch` __does not provide a `fetch` polyfill__.
 

@@ -1,6 +1,6 @@
 {
   "name": "so-fetch-js",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A nice wrapper around the fetch API with some extras",
   "browser": "umd/so-fetch.min.js",
   "main": "lib/so-fetch.js",
