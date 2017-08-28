@@ -1,6 +1,7 @@
 {
   "extends": [
-    "standard"
+    "standard",
+    "prettier"
   ],
   "env": {
     "browser": true
@@ -15,7 +16,10 @@
   "rules": {
     "semi": ["error", "never"],
     "space-before-function-paren": [ "error", "never" ],
-    "comma-dangle": ["error", "always-multiline"]
+    "comma-dangle": ["error", "always-multiline"],
+    "prettier/prettier": ["error", { "singleQuote": true, "trailingComma": "es5", "semi": false }]
   },
-  "plugins": []
+  "plugins": [
+    "prettier",
+  ]
 }
