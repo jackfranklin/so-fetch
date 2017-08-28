@@ -26,21 +26,6 @@ export default [
     ],
   },
 
-  // browser UMD build with polyfills
-  {
-    entry: './src/polyfill.js',
-    dest: 'umd/so-fetch-polyfills.min.js',
-    format: 'umd',
-    moduleName: 'soFetch',
-    sourceMap: true,
-    plugins: [
-      resolve(),
-      commonjs(Object.assign({}, commonjsOptions)),
-      babel(),
-      uglify(),
-    ],
-  },
-
   // CommonJS (for Node) and ES module (for bundlers) build.
   // (We could have three entries in the configuration array
   // instead of two, but it's quicker to generate multiple
@@ -51,15 +36,6 @@ export default [
     targets: [
       { dest: pkg.main, format: 'cjs' },
       { dest: pkg.module, format: 'es' },
-    ],
-    plugins: [resolve(), commonjs(Object.assign({}, commonjsOptions)), babel()],
-  },
-
-  {
-    entry: './src/polyfill.js',
-    targets: [
-      { dest: 'lib/polyfill.js', format: 'cjs' },
-      { dest: 'lib/polyfill.esm.js', format: 'es' },
     ],
     plugins: [resolve(), commonjs(Object.assign({}, commonjsOptions)), babel()],
   },
