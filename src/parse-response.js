@@ -1,3 +1,5 @@
+import SoFetchResponse from './response'
+
 const parseResponse = response => {
   return (
     response
@@ -5,10 +7,7 @@ const parseResponse = response => {
       // assume there is JSON, but catch error if the response has no JSON
       .then(data => data, () => undefined)
       .then(jsonData => {
-        response.data = jsonData
-        response.__error = response.status < 200 || response.status >= 400
-
-        return response
+        return new SoFetchResponse(response, jsonData)
       })
   )
 }

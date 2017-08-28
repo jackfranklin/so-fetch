@@ -31,19 +31,18 @@ class SoFetch {
 
   fetch(url, options = {}) {
     const fullUrl = this.rootUrl() + url
-    const headers = options.headers || new Headers()
-    delete options.headers
+    const headers = new Headers(options.headers || {})
 
     const finalOpts = this.applyRequestInterceptors({
       method: 'GET',
-      headers,
       ...options,
+      headers,
       url: fullUrl,
     })
     return fetch(finalOpts.url, finalOpts)
       .then(parseResponse)
       .then(resp => this.applyResponseInterceptors(resp, finalOpts))
-      .then(resp => (resp.__error ? Promise.reject(resp) : resp))
+      .then(resp => (resp.isError ? Promise.reject(resp) : resp))
   }
 
   post(url, postBody, options = {}) {
