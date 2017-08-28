@@ -22,7 +22,8 @@ You will also need to provide your own polyfill for the `fetch` API if you're wo
 `so-fetch` has some slightly different behaviours to the native `fetch` API:
 
 - It assumes JSON responses, so it calls `.json()` on the response for you. If you are not regularly using JSON, `so-fetch` is not for you.
-- Although it parses the response as JSON, it resolves with the full `Response` object. To access the body you should call the `.data` key:
+- Any request made with `so-fetch` returns a `SoFetchResponse`, rather than a `Response` object. It has all the same properties, so you shouldn't notice any difference, but it also adds two more: `.data` and `.isError`.
+- Although your request is parsed as JSON, `so-fetch` gives you the full response back, with its headers, status, and so on. On a `SoFetchResponse` you can access the parsed response through the `.data` property:
 
     ```js
     import fetch from 'so-fetch-js'
