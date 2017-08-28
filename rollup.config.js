@@ -21,7 +21,7 @@ export default [
     plugins: [
       resolve(),
       commonjs(Object.assign({}, commonjsOptions)),
-      babel(),
+      babel({ plugins: ['external-helpers'] }),
       uglify(),
     ],
   },
@@ -37,6 +37,8 @@ export default [
       { dest: pkg.main, format: 'cjs' },
       { dest: pkg.module, format: 'es' },
     ],
-    plugins: [resolve(), commonjs(Object.assign({}, commonjsOptions)), babel()],
+    plugins: [resolve(), commonjs(Object.assign({}, commonjsOptions)), babel({
+      plugins: ['external-helpers'],
+    })],
   },
 ]

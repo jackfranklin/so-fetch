@@ -1,3 +1,7 @@
+# 0.3.0
+- remove polyfill version
+- Change responses to be `SoFetchResponse` and add `.data` and `.isError` onto them.
+
 # 0.2.1
 - provide `so-fetch-js/lib/polyfill` that contains `Object.assign` and `fetch` polyfills
 

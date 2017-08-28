@@ -1,7 +1,16 @@
 const copyResponseKeysToSelf = (klass, response) => {
   const properties = [
-    'url', 'useFinalURL', 'url',
-    'type', 'statusText', 'status', 'redirected', 'ok', 'headers', 'bodyUsed',
+    'url',
+    'useFinalURL',
+    'url',
+    'type',
+    'statusText',
+    'status',
+    'redirected',
+    'ok',
+    'headers',
+    'bodyUsed',
+    'config',
   ]
 
   properties.forEach(prop => {

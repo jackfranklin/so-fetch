@@ -99,9 +99,7 @@ describe('SoFetch', () => {
       return client.fetch('/fanclub', { headers: { foo: 'bar' } }).then(() => {
         expect(spy).toHaveBeenCalledWith({
           url: '/fanclub',
-          headers: {
-            foo: 'bar',
-          },
+          headers: new Headers({ foo: 'bar' }),
           method: 'GET',
         })
       })

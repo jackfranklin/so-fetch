@@ -23,6 +23,7 @@ class SoFetch {
   }
 
   applyResponseInterceptors(response, config) {
+    // chuck the config onto the response so we can get at it later
     response.config = config
     return this.responseInterceptors.reduce((newResp, interceptor) => {
       return interceptor(newResp)
