@@ -13,7 +13,7 @@ npm install so-fetch-js
 
 This module is designed to be consumed via a build tool such as Webpack.
 
-You will also need to provide your own polyfill for the `fetch` API if you're working in older browsers. [whatwg-fetch](https://www.npmjs.com/package/whatwg-fetch) is recommended. `so-fetch` __does not provide a `fetch` polyfill__.
+You will also need to provide your own polyfill for the `fetch` API if you're working in older browsers. [whatwg-fetch](https://www.npmjs.com/package/whatwg-fetch) is recommended. `so-fetch` **does not provide a `fetch` polyfill**.
 
 `so-fetch` also assumes that `Object.assign` is available. You can use [core-js](https://github.com/zloirock/core-js) but you can also use [es6-object-assign](https://www.npmjs.com/package/es6-object-assign) or any other solution.
 
@@ -21,27 +21,27 @@ You will also need to provide your own polyfill for the `fetch` API if you're wo
 
 `so-fetch` has some slightly different behaviours to the native `fetch` API:
 
-- It assumes JSON responses, so it calls `.json()` on the response for you. If you are not regularly using JSON, `so-fetch` is not for you.
-- Any request made with `so-fetch` returns a `SoFetchResponse`, rather than a `Response` object. It has all the same properties, so you shouldn't notice any difference, but it also adds two more: `.data` and `.isError`.
-- Although your request is parsed as JSON, `so-fetch` gives you the full response back, with its headers, status, and so on. On a `SoFetchResponse` you can access the parsed response through the `.data` property:
+* It assumes JSON responses, so it calls `.json()` on the response for you. If you are not regularly using JSON, `so-fetch` is not for you.
+* Any request made with `so-fetch` returns a `SoFetchResponse`, rather than a `Response` object. It has all the same properties, so you shouldn't notice any difference, but it also adds two more: `.data` and `.isError`.
+* Although your request is parsed as JSON, `so-fetch` gives you the full response back, with its headers, status, and so on. On a `SoFetchResponse` you can access the parsed response through the `.data` property:
 
-    ```js
-    import fetch from 'so-fetch-js'
+  ```js
+  import fetch from 'so-fetch-js'
 
-    fetch('/users').then(response => {
-      console.log(response.data) // the response body, parsed to a JS object
-    })
-    ```
+  fetch('/users').then(response => {
+    console.log(response.data) // the response body, parsed to a JS object
+  })
+  ```
 
-- Unlike `fetch`, `so-fetch` will reject any response that does not have a `2XX` status code. When this happens, you can still read the JSON response using `.data`:
+* Unlike `fetch`, `so-fetch` will reject any response that does not have a `2XX` status code. When this happens, you can still read the JSON response using `.data`:
 
-    ```js    
-    import fetch from 'so-fetch-js'
+  ```js
+  import fetch from 'so-fetch-js'
 
-    fetch('/users').catch(errorResponse => {
-      console.log(errorResponse.data) // response body still, even though the request failed
-    })
-    ```
+  fetch('/users').catch(errorResponse => {
+    console.log(errorResponse.data) // response body still, even though the request failed
+  })
+  ```
 
 ## Basic Usage
 
@@ -60,17 +60,17 @@ To use `so-fetch`'s more advanced features, you will need to create clients.
 To use so-fetch, you should first import it and instantiate a new client:
 
 ```js
-import fetch from 'so-fetch-js'
-const apiClient = fetch.makeClient({
+import { makeFetchClient } from 'so-fetch-js'
+const apiClient = makeFetchClient({
   ...
 })
 ```
 
-The `makeClient` call takes three options:
+The `makeFetchClient` call takes three options:
 
-- `requestInterceptors: []`: an array of request interceptors. See below for documentation for interceptors.
-- `responseInterceptors: []`: an array of response interceptors. See below for documentation for interceptors.
-- `rootUrl: () => ''`: a function that returns a string that makes up your base URL. Normally this will just return a static string: `rootUrl: () => 'http://api.com'`.
+* `requestInterceptors: []`: an array of request interceptors. See below for documentation for interceptors.
+* `responseInterceptors: []`: an array of response interceptors. See below for documentation for interceptors.
+* `rootUrl: () => ''`: a function that returns a string that makes up your base URL. Normally this will just return a static string: `rootUrl: () => 'http://api.com'`.
 
 ### Making Requests with a client
 
@@ -79,7 +79,7 @@ Once you have created a client, you have an object with methods that you can cal
 The main method provided by the client is `fetch`:
 
 ```js
-const apiClient = fetch.newClient({
+const apiClient = makeFetchClient({
   rootUrl: () => 'http://api.com',
 })
 
@@ -125,10 +125,8 @@ const addHeader = config => {
   return config
 }
 
-const client = fetch.newClient({
-  requestInterceptors: [
-    addHeader,
-  ],
+const client = makeFetchClient({
+  requestInterceptors: [addHeader],
 })
 ```
 
@@ -142,10 +140,8 @@ const saveHeader = response => {
   return response
 }
 
-const client = fetch.newClient({
-  responseInterceptors: [
-    saveHeader,
-  ],
+const client = makeFetchClient({
+  responseInterceptors: [saveHeader],
 })
 ```
 
@@ -154,7 +150,7 @@ It's important to note that `response.headers` _is not a plain JS object_, but i
 An api client can have as many request and response interceptors as you like. They will be executed in the order they are passed when you create the client:
 
 ```js
-const client = fetch.newClient({
+const client = makeFetchClient({
   requestInterceptors: [
     a, // executed first
     b,
@@ -164,10 +160,9 @@ const client = fetch.newClient({
     d, // executed first
     e,
     f,
-  ]
+  ],
 })
 ```
-
 
 ## Contributing
 
@@ -175,8 +170,8 @@ We welcome any contributions. Before embarking on a big piece of work it's a goo
 
 To work on this project:
 
-- Fork this repository
-- `git clone` to your machine
-- `yarn install` to install all the dependencies.
-- `yarn test:watch` to run the tests in watch mode. They will rerun as you make changes.
-- Run `yarn run lint` to run ESLint against the `src` and `spec` directory.
+* Fork this repository
+* `git clone` to your machine
+* `yarn install` to install all the dependencies.
+* `yarn test:watch` to run the tests in watch mode. They will rerun as you make changes.
+* Run `yarn run lint` to run ESLint against the `src` and `spec` directory.
