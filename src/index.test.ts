@@ -1,13 +1,14 @@
 import fetch from '../src/index'
 import * as fetchMock from 'fetch-mock'
+import SoFetchResponse from './response'
 
 describe('so-fetch', () => {
   it('makes requests with the default client', () => {
     fetchMock.getOnce('/foo', { body: { name: 'Jack' }, status: 200 })
     return fetch('/foo')
       .catch(fail)
-      .then(response => {
-        expect(response.data.name).toEqual('Jack')
+      .then((response: SoFetchResponse) => {
+        expect(response.data!.name).toEqual('Jack')
       })
   })
 
@@ -23,8 +24,8 @@ describe('so-fetch', () => {
     return client
       .fetch('/foo')
       .catch(fail)
-      .then(response => {
-        expect(response.data.name).toEqual('Jack')
+      .then((response: SoFetchResponse) => {
+        expect(response.data!.name).toEqual('Jack')
       })
   })
 })

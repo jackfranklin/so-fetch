@@ -1,5 +1,9 @@
+import { FetchOptions } from './interfaces'
+
 class SoFetchResponse {
-  readonly data?: {}
+  readonly data?: {
+    [x: string]: any
+  }
   readonly isError: boolean
   readonly body: ReadableStream | null
   readonly headers: Headers
@@ -8,6 +12,7 @@ class SoFetchResponse {
   readonly statusText: string
   readonly type: string
   readonly url: string
+  config?: FetchOptions
 
   constructor(response: Response, jsonData?: {}) {
     this.body = response.body

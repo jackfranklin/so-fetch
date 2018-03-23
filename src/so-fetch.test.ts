@@ -43,7 +43,8 @@ describe('SoFetch', () => {
           },
         ],
       })
-      fetchMock.getOnce('/fanclub', 200, {
+      fetchMock.getOnce('/fanclub', {
+        status: 200,
         headers: {
           SomeRandomHeader: 'foo',
         },
@@ -135,10 +136,9 @@ describe('SoFetch', () => {
       fetchMock.once(
         (url, request) => {
           if (request.method === 'POST' && url === '/fanclub') {
-            expect(request.headers.get('Content-Type')).toEqual(
+            expect((request.headers as Headers).get('Content-Type')).toEqual(
               'application/json',
             )
-            expect(request.body).toEqual(JSON.stringify({ name: 'Kanye West' }))
             return true
           }
           return false
