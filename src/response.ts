@@ -1,18 +1,18 @@
-import { FetchOptions } from './interfaces'
+import { IFetchOptions } from './interfaces'
 
 class SoFetchResponse {
-  readonly data?: {
+  public readonly data?: {
     [x: string]: any
   }
-  readonly isError: boolean
-  readonly body: ReadableStream | null
-  readonly headers: Headers
-  readonly ok: boolean
-  readonly status: number
-  readonly statusText: string
-  readonly type: string
-  readonly url: string
-  config?: FetchOptions
+  public readonly isError: boolean
+  public readonly body: ReadableStream | null
+  public readonly headers: Headers
+  public readonly ok: boolean
+  public readonly status: number
+  public readonly statusText: string
+  public readonly type: string
+  public readonly url: string
+  public config?: IFetchOptions
 
   constructor(response: Response, jsonData?: {}) {
     this.body = response.body

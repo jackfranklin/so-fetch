@@ -7,10 +7,11 @@
   "author": "Jack Franklin",
   "license": "MIT",
   "scripts": {
-    "test": "yarn run prettier:check:all && NODE_ENV=test yarn run jest",
+    "test": "yarn run tslint && yarn run prettier:check:all && NODE_ENV=test yarn run jest",
     "test:watch": "jest --watch",
     "compile": "tsc -p .",
     "prepublishOnly": "yarn test && yarn run compile",
+    "tslint": "tslint 'src/**/*.ts'",
     "prettier:check:all": "prettier -l 'src/**/*.ts'"
   },
   "files": [

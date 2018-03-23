@@ -1,28 +1,28 @@
-import parseResponse from './parse-response'
 import {
+  IFetchOptions,
+  ISoFetchInitialisation,
   RequestInterceptor,
   ResponseInterceptor,
-  SoFetchInitialisation,
-  FetchOptions,
 } from './interfaces'
+import parseResponse from './parse-response'
 import SoFetchResponse from './response'
 
 class SoFetch {
-  requestInterceptors: RequestInterceptor[]
-  responseInterceptors: ResponseInterceptor[]
-  rootUrl: () => string
+  private requestInterceptors: RequestInterceptor[]
+  private responseInterceptors: ResponseInterceptor[]
+  private rootUrl: () => string
 
   constructor({
     requestInterceptors = [],
     responseInterceptors = [],
     rootUrl = () => '',
-  }: SoFetchInitialisation = {}) {
+  }: ISoFetchInitialisation = {}) {
     this.requestInterceptors = requestInterceptors
     this.responseInterceptors = responseInterceptors
     this.rootUrl = rootUrl
   }
 
-  applyRequestInterceptors(options: FetchOptions): FetchOptions {
+  public applyRequestInterceptors(options: IFetchOptions): IFetchOptions {
     return this.requestInterceptors.reduce(
       (opts, interceptor) => {
         return interceptor(options)
@@ -31,9 +31,9 @@ class SoFetch {
     )
   }
 
-  applyResponseInterceptors(
+  public applyResponseInterceptors(
     response: SoFetchResponse,
-    config: FetchOptions,
+    config: IFetchOptions,
   ): SoFetchResponse {
     // chuck the config onto the response so we can get at it later
     response.config = config
@@ -42,7 +42,10 @@ class SoFetch {
     }, response)
   }
 
-  fetch(url: string, options: FetchOptions = {}): Promise<SoFetchResponse> {
+  public fetch(
+    url: string,
+    options: IFetchOptions = {},
+  ): Promise<SoFetchResponse> {
     const fullUrl = this.rootUrl() + url
     const headers = new Headers(options.headers || {})
 
@@ -64,10 +67,10 @@ class SoFetch {
       })
   }
 
-  post(
+  public post(
     url: string,
     postBody?: {},
-    options?: FetchOptions,
+    options?: IFetchOptions,
   ): Promise<SoFetchResponse> {
     const headers = new Headers((options && options.headers) || {})
     headers.set('Content-Type', 'application/json')
@@ -80,10 +83,10 @@ class SoFetch {
     })
   }
 
-  put(
+  public put(
     url: string,
     postBody?: {},
-    options?: FetchOptions,
+    options?: IFetchOptions,
   ): Promise<SoFetchResponse> {
     const headers = new Headers((options && options.headers) || {})
     headers.set('Content-Type', 'application/json')

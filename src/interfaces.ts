@@ -1,13 +1,13 @@
 export type RequestInterceptor = (config: any) => any
 export type ResponseInterceptor = (config: any) => any
 
-export interface SoFetchInitialisation {
-  requestInterceptors?: Array<RequestInterceptor>
-  responseInterceptors?: Array<ResponseInterceptor>
+export interface ISoFetchInitialisation {
+  requestInterceptors?: RequestInterceptor[]
+  responseInterceptors?: ResponseInterceptor[]
   rootUrl?: () => string
 }
 
-export interface FetchOptions {
+export interface IFetchOptions {
   headers?: {}
   body?: {}
   method?: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH'

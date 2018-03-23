@@ -1,5 +1,5 @@
-import SoFetch from '../src/so-fetch'
 import * as fetchMock from 'fetch-mock'
+import SoFetch from '../src/so-fetch'
 
 describe('SoFetch', () => {
   describe('errors', () => {
