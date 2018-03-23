@@ -1,15 +1,18 @@
 import SoFetch from '../src/so-fetch'
-import fetchMock from 'fetch-mock'
+import * as fetchMock from 'fetch-mock'
 
 describe('SoFetch', () => {
   describe('errors', () => {
     it('rejects with the response when an error occurs', () => {
       const client = new SoFetch({})
       fetchMock.getOnce('/fanclub', 404)
-      return client.fetch('/fanclub').then(fail).catch(response => {
-        expect(response.statusText).toEqual('Not Found')
-        expect(response.status).toEqual(404)
-      })
+      return client
+        .fetch('/fanclub')
+        .then(fail)
+        .catch(response => {
+          expect(response.statusText).toEqual('Not Found')
+          expect(response.status).toEqual(404)
+        })
     })
 
     it('parses any JSON', () => {
@@ -19,9 +22,12 @@ describe('SoFetch', () => {
         body: { error: 'It went wrong' },
       })
 
-      return client.fetch('/fanclub').then(fail).catch(response => {
-        expect(response.data).toEqual({ error: 'It went wrong' })
-      })
+      return client
+        .fetch('/fanclub')
+        .then(fail)
+        .catch(response => {
+          expect(response.data).toEqual({ error: 'It went wrong' })
+        })
     })
   })
 
@@ -59,7 +65,7 @@ describe('SoFetch', () => {
       fetchMock.getOnce('/fanclub', 200)
 
       return expect(client.fetch('/fanclub')).resolves.toEqual(
-        expect.anything()
+        expect.anything(),
       )
     })
   })
@@ -130,7 +136,7 @@ describe('SoFetch', () => {
         (url, request) => {
           if (request.method === 'POST' && url === '/fanclub') {
             expect(request.headers.get('Content-Type')).toEqual(
-              'application/json'
+              'application/json',
             )
             expect(request.body).toEqual(JSON.stringify({ name: 'Kanye West' }))
             return true
@@ -139,7 +145,7 @@ describe('SoFetch', () => {
         },
         {
           status: 200,
-        }
+        },
       )
 
       return client.post('/fanclub', { name: 'Kanye West' }).then(resp => {

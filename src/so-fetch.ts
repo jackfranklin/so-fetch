@@ -1,13 +1,11 @@
 import parseResponse from './parse-response'
 
 class SoFetch {
-  constructor(
-    {
-      requestInterceptors = [],
-      responseInterceptors = [],
-      rootUrl = () => '',
-    } = {}
-  ) {
+  constructor({
+    requestInterceptors = [],
+    responseInterceptors = [],
+    rootUrl = () => '',
+  } = {}) {
     this.requestInterceptors = requestInterceptors
     this.responseInterceptors = responseInterceptors
     this.rootUrl = rootUrl
@@ -18,7 +16,7 @@ class SoFetch {
       (opts, interceptor) => {
         return interceptor(options)
       },
-      { ...options }
+      { ...options },
     )
   }
 
