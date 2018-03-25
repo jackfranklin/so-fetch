@@ -1,6 +1,7 @@
-// TODO: fix these anys
-export type RequestInterceptor = (config: any) => any
-export type ResponseInterceptor = (config: any) => any
+import SoFetchResponse from './response'
+
+export type RequestInterceptor = (config: IFetchOptions) => IFetchOptions
+export type ResponseInterceptor = (response: SoFetchResponse) => SoFetchResponse
 
 export interface ISoFetchInitialisation {
   requestInterceptors?: RequestInterceptor[]
