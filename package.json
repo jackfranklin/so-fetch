@@ -9,7 +9,7 @@
   "scripts": {
     "test": "yarn run tslint && yarn run prettier:check:all && NODE_ENV=test yarn run jest",
     "test:watch": "jest --watch",
-    "compile": "tsc -p .",
+    "compile": "tsc -p tsconfig.build.json",
     "prepack": "yarn test && yarn run compile",
     "tslint": "tslint 'src/**/*.ts'",
     "prettier:check:all": "prettier -l 'src/**/*.ts'"
