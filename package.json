@@ -10,6 +10,7 @@
     "test": "yarn run tslint && yarn run prettier:check:all && NODE_ENV=test yarn run jest",
     "test:watch": "jest --watch",
     "compile": "tsc -p tsconfig.build.json",
+    "type-check": "tsc -p tsconfig.json",
     "prepack": "yarn test && yarn run compile",
     "tslint": "tslint 'src/**/*.ts'",
     "prettier:check:all": "prettier -l 'src/**/*.ts'"

@@ -6,12 +6,12 @@ import SoFetch from './so-fetch'
 const defaultClient = new SoFetch()
 
 // const defaultFetch = defaultClient.fetch.bind(defaultClient)
-const defaultFetch = (...args: any[]): Promise<SoFetchResponse> =>
+const defaultFetch = <T>(...args: any[]): Promise<SoFetchResponse<T>> =>
   defaultClient.fetch.apply(defaultClient, args)
 
-const makeFetchClient = (args: ISoFetchInitialisation): SoFetch =>
-  new SoFetch(args)
+const makeFetchClient = <T>(args: ISoFetchInitialisation<T>): SoFetch<T> =>
+  new SoFetch<T>(args)
 
-export { makeFetchClient }
+export { makeFetchClient, SoFetchResponse }
 
 export default defaultFetch

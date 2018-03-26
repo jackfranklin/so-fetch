@@ -1,5 +1,6 @@
 import {
   IFetchOptions,
+  IRequestInterceptorConfig,
   ISoFetchInitialisation,
   RequestInterceptor,
   ResponseInterceptor,
@@ -7,22 +8,24 @@ import {
 import parseResponse from './parse-response'
 import SoFetchResponse from './response'
 
-class SoFetch {
+class SoFetch<T> {
   private requestInterceptors: RequestInterceptor[]
-  private responseInterceptors: ResponseInterceptor[]
+  private responseInterceptors: Array<ResponseInterceptor<T>>
   private rootUrl: () => string
 
   constructor({
     requestInterceptors = [],
     responseInterceptors = [],
     rootUrl = () => '',
-  }: ISoFetchInitialisation = {}) {
+  }: ISoFetchInitialisation<T> = {}) {
     this.requestInterceptors = requestInterceptors
     this.responseInterceptors = responseInterceptors
     this.rootUrl = rootUrl
   }
 
-  public applyRequestInterceptors(options: IFetchOptions): IFetchOptions {
+  public applyRequestInterceptors(
+    options: IRequestInterceptorConfig,
+  ): IRequestInterceptorConfig {
     return this.requestInterceptors.reduce(
       (opts, interceptor) => {
         return interceptor(options)
@@ -32,9 +35,9 @@ class SoFetch {
   }
 
   public applyResponseInterceptors(
-    response: SoFetchResponse,
+    response: SoFetchResponse<T>,
     config: IFetchOptions,
-  ): SoFetchResponse {
+  ): SoFetchResponse<T> {
     // chuck the config onto the response so we can get at it later
     response.config = config
     return this.responseInterceptors.reduce((newResp, interceptor) => {
@@ -45,7 +48,7 @@ class SoFetch {
   public fetch(
     url: string,
     options: IFetchOptions = {},
-  ): Promise<SoFetchResponse> {
+  ): Promise<SoFetchResponse<T>> {
     const fullUrl = this.rootUrl() + url
     const headers = new Headers(options.headers || {})
 
@@ -71,7 +74,7 @@ class SoFetch {
     url: string,
     postBody?: {},
     options?: IFetchOptions,
-  ): Promise<SoFetchResponse> {
+  ): Promise<SoFetchResponse<T>> {
     const headers = new Headers((options && options.headers) || {})
     headers.set('Content-Type', 'application/json')
 
@@ -87,7 +90,7 @@ class SoFetch {
     url: string,
     postBody?: {},
     options?: IFetchOptions,
-  ): Promise<SoFetchResponse> {
+  ): Promise<SoFetchResponse<T>> {
     const headers = new Headers((options && options.headers) || {})
     headers.set('Content-Type', 'application/json')
 

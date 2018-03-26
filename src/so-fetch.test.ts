@@ -36,9 +36,9 @@ describe('SoFetch', () => {
       const client = new SoFetch({
         requestInterceptors: [
           config => {
-            config.headers = {
+            config.headers = new Headers({
               SomeRandomHeader: 'foo',
-            }
+            })
             return config
           },
         ],
@@ -57,7 +57,9 @@ describe('SoFetch', () => {
       const client = new SoFetch({
         requestInterceptors: [
           config => {
-            config.headers.set('SomeRandomHeader', 'foo')
+            if (config.headers) {
+              config.headers.set('SomeRandomHeader', 'foo')
+            }
             return config
           },
         ],
