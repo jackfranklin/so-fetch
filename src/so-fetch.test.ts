@@ -4,7 +4,7 @@ import SoFetch from '../src/so-fetch'
 describe('SoFetch', () => {
   describe('errors', () => {
     it('rejects with the response when an error occurs', () => {
-      const client = new SoFetch({})
+      const client = new SoFetch<any>({})
       fetchMock.getOnce('/fanclub', 404)
       return client
         .fetch('/fanclub')
@@ -16,7 +16,7 @@ describe('SoFetch', () => {
     })
 
     it('parses any JSON', () => {
-      const client = new SoFetch({})
+      const client = new SoFetch<any>({})
       fetchMock.getOnce('/fanclub', {
         status: 404,
         body: { error: 'It went wrong' },
@@ -33,7 +33,7 @@ describe('SoFetch', () => {
 
   describe('request interceptors', () => {
     it('can have request interceptors', () => {
-      const client = new SoFetch({
+      const client = new SoFetch<any>({
         requestInterceptors: [
           config => {
             config.headers = new Headers({
@@ -54,7 +54,7 @@ describe('SoFetch', () => {
     })
 
     it('passes an empty headers obj if there are none', () => {
-      const client = new SoFetch({
+      const client = new SoFetch<any>({
         requestInterceptors: [
           config => {
             if (config.headers) {
@@ -77,7 +77,7 @@ describe('SoFetch', () => {
     it('can have response interceptors', () => {
       const spy = jest.fn()
 
-      const client = new SoFetch({
+      const client = new SoFetch<any>({
         responseInterceptors: [
           response => {
             spy('foo')
@@ -95,7 +95,7 @@ describe('SoFetch', () => {
     it('gives response interceptors the final config', () => {
       const spy = jest.fn()
 
-      const client = new SoFetch({
+      const client = new SoFetch<any>({
         responseInterceptors: [
           response => {
             spy(response.config)
@@ -117,7 +117,7 @@ describe('SoFetch', () => {
 
   describe('fetch', () => {
     it('returns the original response with an extra data property', () => {
-      const client = new SoFetch()
+      const client = new SoFetch<any>()
 
       fetchMock.getOnce('/fanclub', {
         status: 200,
@@ -133,7 +133,7 @@ describe('SoFetch', () => {
 
   describe('post', () => {
     it('posts the JSON with the right headers', () => {
-      const client = new SoFetch()
+      const client = new SoFetch<any>()
 
       fetchMock.once(
         (url, request) => {

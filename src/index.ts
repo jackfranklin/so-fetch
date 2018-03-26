@@ -3,7 +3,10 @@ import { ISoFetchInitialisation } from './interfaces'
 import SoFetchResponse from './response'
 import SoFetch from './so-fetch'
 
-const defaultClient = new SoFetch()
+interface IDefaultFetchResponse {
+  [x: string]: any
+}
+const defaultClient = new SoFetch<IDefaultFetchResponse>()
 
 // const defaultFetch = defaultClient.fetch.bind(defaultClient)
 const defaultFetch = <T>(...args: any[]): Promise<SoFetchResponse<T>> =>

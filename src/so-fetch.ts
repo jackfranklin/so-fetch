@@ -59,7 +59,7 @@ class SoFetch<T> {
       url: fullUrl,
     })
     return fetch(fullUrl, finalOpts as RequestInit)
-      .then(parseResponse)
+      .then(resp => parseResponse<T>(resp))
       .then(resp => this.applyResponseInterceptors(resp, finalOpts))
       .then(resp => {
         if (resp.isError) {
