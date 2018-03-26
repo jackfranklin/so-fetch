@@ -13,7 +13,11 @@ describe('so-fetch', () => {
   })
 
   it('can make a new client', () => {
-    const client = makeFetchClient<IDefaultFetchResponse>({
+    interface ICustomResponse {
+      name: string
+    }
+
+    const client = makeFetchClient<ICustomResponse>({
       rootUrl: () => 'http://example.com',
     })
 
@@ -23,8 +27,8 @@ describe('so-fetch', () => {
     })
     return client
       .fetch('/foo')
-      .then((response: SoFetchResponse<IDefaultFetchResponse>) => {
-        expect(response!.data!.name).toEqual('Jack')
+      .then((response: SoFetchResponse<ICustomResponse>) => {
+        expect(response.data!.name).toEqual('Jack')
       })
   })
 })
