@@ -7,7 +7,7 @@
   "author": "Jack Franklin",
   "license": "MIT",
   "scripts": {
-    "test": "yarn run tslint && yarn run prettier:check:all && NODE_ENV=test yarn run jest",
+    "test": "yarn run tslint && yarn run type-check && yarn run prettier:check:all && NODE_ENV=test yarn run jest",
     "test:watch": "jest --watch",
     "compile": "tsc -p tsconfig.build.json",
     "type-check": "tsc -p tsconfig.json",
