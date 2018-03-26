@@ -7,8 +7,6 @@ export interface IDefaultFetchResponse {
   [x: string]: any
 }
 
-const defaultClient = new SoFetch<IDefaultFetchResponse>()
-
 const defaultFetch = <T = IDefaultFetchResponse>(
   url: string,
   options: IFetchOptions = {},
