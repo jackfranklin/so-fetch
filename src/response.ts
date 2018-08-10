@@ -1,9 +1,7 @@
 import { IFetchOptions } from './interfaces'
 
-class SoFetchResponse {
-  public readonly data?: {
-    [x: string]: any
-  }
+class SoFetchResponse<T> {
+  public readonly data?: T
   public readonly isError: boolean
   public readonly body: ReadableStream | null
   public readonly headers: Headers
@@ -14,7 +12,7 @@ class SoFetchResponse {
   public readonly url: string
   public config?: IFetchOptions
 
-  constructor(response: Response, jsonData?: {}) {
+  constructor(response: Response, jsonData?: T) {
     this.body = response.body
     this.data = jsonData
     this.headers = response.headers

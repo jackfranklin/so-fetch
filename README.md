@@ -13,6 +13,8 @@ npm install so-fetch-js
 
 This module is designed to be consumed via a build tool such as Webpack.
 
+This module is written in TypeScript and the types are published to npm; if you're using TypeScript they should be picked up by the compiler automatically.
+
 You will also need to provide your own polyfill for the `fetch` API if you're working in older browsers. [whatwg-fetch](https://www.npmjs.com/package/whatwg-fetch) is recommended. `so-fetch` **does not provide a `fetch` polyfill**.
 
 `so-fetch` also assumes that `Object.assign` is available. You can use [core-js](https://github.com/zloirock/core-js) but you can also use [es6-object-assign](https://www.npmjs.com/package/es6-object-assign) or any other solution.
@@ -164,6 +166,45 @@ const client = makeFetchClient({
 })
 ```
 
+## Type usage with TypeScript
+
+The so-fetch library is fully typed and if you are using TypeScript you can take advantage of this to have a much nicer development experience. The type of a client is `SoFetch<T>`, where `T` is the response type coming from your API.
+
+So, if my API always returns `{ name: string }`, I can create my client like so:
+
+```ts
+import { makeFetchClient } from 'so-fetch-js'
+
+interface IApiResponse {
+  name: string
+}
+
+const myClient = makeFetchClient<IApiResponse>()
+myClient.fetch(...) // returns Promise<SoFetchResponse<IApiResponse>>
+```
+
+If you don't want to create your own clients, you can still type the default fetch function:
+
+```ts
+import fetch from 'so-fetch-js'
+
+interface IApiResponse {
+  name: string
+}
+
+fetch<IApiResponse>(...) // returns Promise<SoFetchResponse<IApiResponse>>
+```
+
+If you do not specify a type of response, the following interface is used:
+
+```ts
+export interface IDefaultFetchResponse {
+  [x: string]: any
+}
+```
+
+If you find any issues with the types, please feel free to raise an issue. This is my first TypeScript module so I wouldn't be surprised if there are problems!
+
 ## Contributing
 
 We welcome any contributions. Before embarking on a big piece of work it's a good idea to open an issue to discuss your idea and proposed solution.
@@ -174,4 +215,4 @@ To work on this project:
 * `git clone` to your machine
 * `yarn install` to install all the dependencies.
 * `yarn test:watch` to run the tests in watch mode. They will rerun as you make changes.
-* Run `yarn run lint` to run ESLint against the `src` and `spec` directory.
+* Run `yarn test` to run linting, type checking and tests.
