@@ -1,3 +1,7 @@
+# 0.4.1
+
+* Publish the `src` directory in the npm package to avoid warnings where the sourcemap in `dist` links to non-existent `src` files.
+
 # 0.4.0
 
 * Rewrote in TypeScript! Types are published, so if you're using TypeScript you should be able to take advantage of them.

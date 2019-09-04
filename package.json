@@ -1,13 +1,14 @@
 {
   "name": "so-fetch-js",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "A nice wrapper around the fetch API with some extras",
   "main": "dist/index",
   "typings": "dist/index",
   "author": "Jack Franklin",
   "license": "MIT",
   "scripts": {
-    "test": "yarn run tslint && yarn run type-check && yarn run prettier:check:all && NODE_ENV=test yarn run jest",
+    "test":
+      "yarn run tslint && yarn run type-check && yarn run prettier:check:all && NODE_ENV=test yarn run jest",
     "test:watch": "jest --watch",
     "compile": "tsc -p tsconfig.build.json",
     "type-check": "tsc -p tsconfig.json",
@@ -15,23 +16,14 @@
     "tslint": "tslint 'src/**/*.ts'",
     "prettier:check:all": "prettier -l 'src/**/*.ts'"
   },
-  "files": [
-    "dist"
-  ],
+  "files": ["src", "dist"],
   "jest": {
     "setupTestFrameworkScriptFile": "./test-setup.ts",
     "transform": {
       "^.+\\.tsx?$": "ts-jest"
     },
     "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(tsx?)$",
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js",
-      "jsx",
-      "json",
-      "node"
-    ]
+    "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json", "node"]
   },
   "devDependencies": {
     "@types/fetch-mock": "^6.0.1",
