@@ -18,6 +18,11 @@ export interface IFetchOptions {
   body?: {}
   method?: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH'
   url?: string
+  mode?: 'cors' | 'no-cors' | 'same-origin'
+  cache?: 'no-cache' | 'default' | 'reload' | 'force-cache' | 'only-if-cached'
+  credentials?: 'same-origin' | 'include' | 'omit'
+  redirect?: 'follow' | 'manual' | 'error'
+  referrer?: 'no-referrer' | 'client'
 }
 
 export interface IRequestInterceptorConfig extends IFetchOptions {
