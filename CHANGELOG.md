@@ -1,3 +1,7 @@
+# 0.4.2
+
+* Better TypeScript types for FetchOptions - [PR](https://github.com/jackfranklin/so-fetch/pull/16)
+
 # 0.4.1
 
 * Publish the `src` directory in the npm package to avoid warnings where the sourcemap in `dist` links to non-existent `src` files.

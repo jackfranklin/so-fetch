@@ -1,6 +1,6 @@
 {
   "name": "so-fetch-js",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "A nice wrapper around the fetch API with some extras",
   "main": "dist/index",
   "typings": "dist/index",
