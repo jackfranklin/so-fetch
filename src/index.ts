@@ -20,3 +20,4 @@ export { makeFetchClient, SoFetchResponse }
 export default defaultFetch
 
 export * from './interfaces'
+export { default as SoFetch } from './so-fetch';
