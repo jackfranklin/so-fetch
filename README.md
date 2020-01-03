@@ -166,6 +166,8 @@ const client = makeFetchClient({
 })
 ```
 
+Interceptors can also be async functions and will be executed in a sequential order, meaning that you can rely on previous interceptors to have been resolved. If any of the interceptors rejects the entire fetch will be rejected.
+
 ## Type usage with TypeScript
 
 The so-fetch library is fully typed and if you are using TypeScript you can take advantage of this to have a much nicer development experience. The type of a client is `SoFetch<T>`, where `T` is the response type coming from your API.

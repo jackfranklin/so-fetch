@@ -53,6 +53,52 @@ describe('SoFetch', () => {
       return client.fetch('/fanclub').catch(fail)
     })
 
+    it('can have async request interceptors', async () => {
+      const client = new SoFetch<any>({
+        requestInterceptors: [
+          async config => {
+            config.headers = await new Headers({
+              SomeRandomHeader: 'foo',
+            })
+            return config
+          },
+        ],
+      })
+      fetchMock.getOnce('/fanclub', 200, {
+        headers: {
+          SomeRandomHeader: 'foo',
+        },
+      })
+
+      return client.fetch('/fanclub').catch(fail)
+    })
+
+    it('can have multiple async request interceptors', () => {
+      const client = new SoFetch<any>({
+        requestInterceptors: [
+          async config => {
+            config.headers = await new Headers({
+              SomeRandomHeader: 'foo',
+            })
+            return config
+          },
+          async config => {
+            const headerData = await config.headers.get('SomeRandomHeader')
+            config.headers.set('AnotherHeader', `${headerData}Bar`)
+            return config
+          },
+        ],
+      })
+      fetchMock.getOnce('/fanclub', 200, {
+        headers: {
+          SomeRandomHeader: 'foo',
+          AnotherHeader: 'fooBar',
+        },
+      })
+
+      return client.fetch('/fanclub').catch(fail)
+    })
+
     it('passes an empty headers obj if there are none', () => {
       const client = new SoFetch<any>({
         requestInterceptors: [
@@ -89,6 +135,35 @@ describe('SoFetch', () => {
 
       return client.fetch('/fanclub').then(() => {
         expect(spy).toHaveBeenCalledWith('foo')
+      })
+    })
+
+    it('can have multiple async response interceptors', () => {
+      const myAsyncFn = (data: any) => Promise.resolve(data)
+      const client = new SoFetch<any>({
+        responseInterceptors: [
+          async response => {
+            // @ts-ignore
+            response.myCustomData = await myAsyncFn('first')
+            return response
+          },
+          async response => {
+            // @ts-ignore
+            response.myCustomData2 = await myAsyncFn(
+              // @ts-ignore
+              `${response.myCustomData}Second`,
+            )
+            return response
+          },
+        ],
+      })
+      fetchMock.getOnce('/fanclub', 200)
+
+      return client.fetch('/fanclub').then(response => {
+        // @ts-ignore
+        expect(response.myCustomData).toBe('first')
+        // @ts-ignore
+        expect(response.myCustomData2).toBe('firstSecond')
       })
     })
 

@@ -18,6 +18,7 @@
   },
   "files": ["src", "dist"],
   "jest": {
+    "testURL": "http://localhost/",
     "setupTestFrameworkScriptFile": "./test-setup.ts",
     "transform": {
       "^.+\\.tsx?$": "ts-jest"

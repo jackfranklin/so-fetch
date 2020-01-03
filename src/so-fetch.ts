@@ -25,24 +25,25 @@ class SoFetch<T> {
 
   public applyRequestInterceptors(
     options: IRequestInterceptorConfig,
-  ): IRequestInterceptorConfig {
+  ): Promise<IRequestInterceptorConfig> {
     return this.requestInterceptors.reduce(
-      (opts, interceptor) => {
-        return interceptor(options)
-      },
-      { ...options },
+      (promise, interceptor) =>
+        promise.then((opts: IRequestInterceptorConfig) => interceptor(opts)),
+      Promise.resolve({ ...options }),
     )
   }
 
   public applyResponseInterceptors(
     response: SoFetchResponse<T>,
     config: IFetchOptions,
-  ): SoFetchResponse<T> {
+  ): Promise<SoFetchResponse<T>> {
     // chuck the config onto the response so we can get at it later
     response.config = config
-    return this.responseInterceptors.reduce((newResp, interceptor) => {
-      return interceptor(newResp)
-    }, response)
+    return this.responseInterceptors.reduce(
+      (promise, interceptor) =>
+        promise.then((newResp: SoFetchResponse<T>) => interceptor(newResp)),
+      Promise.resolve(response),
+    )
   }
 
   public fetch(
@@ -52,15 +53,17 @@ class SoFetch<T> {
     const fullUrl = this.rootUrl() + url
     const headers = new Headers(options.headers || {})
 
-    const finalOpts = this.applyRequestInterceptors({
+    return this.applyRequestInterceptors({
       method: 'GET',
       ...options,
       headers,
       url: fullUrl,
     })
-    return fetch(fullUrl, finalOpts as RequestInit)
-      .then(resp => parseResponse<T>(resp))
-      .then(resp => this.applyResponseInterceptors(resp, finalOpts))
+      .then(finalOpts =>
+        fetch(fullUrl, finalOpts as RequestInit)
+          .then(resp => parseResponse<T>(resp))
+          .then(resp => this.applyResponseInterceptors(resp, finalOpts)),
+      )
       .then(resp => {
         if (resp.isError) {
           throw resp
