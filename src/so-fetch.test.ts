@@ -138,6 +138,35 @@ describe('SoFetch', () => {
       })
     })
 
+    it('can have multiple async response interceptors', () => {
+      const myAsyncFn = (data: any) => Promise.resolve(data)
+      const client = new SoFetch<any>({
+        responseInterceptors: [
+          async response => {
+            // @ts-ignore
+            response.myCustomData = await myAsyncFn('first')
+            return response
+          },
+          async response => {
+            // @ts-ignore
+            response.myCustomData2 = await myAsyncFn(
+              // @ts-ignore
+              `${response.myCustomData}Second`,
+            )
+            return response
+          },
+        ],
+      })
+      fetchMock.getOnce('/fanclub', 200)
+
+      return client.fetch('/fanclub').then(response => {
+        // @ts-ignore
+        expect(response.myCustomData).toBe('first')
+        // @ts-ignore
+        expect(response.myCustomData2).toBe('firstSecond')
+      })
+    })
+
     it('gives response interceptors the final config', () => {
       const spy = jest.fn()
 
