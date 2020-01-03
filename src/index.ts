@@ -18,3 +18,5 @@ const makeFetchClient = <T>(args: ISoFetchInitialisation<T>): SoFetch<T> =>
 export { makeFetchClient, SoFetchResponse }
 
 export default defaultFetch
+
+export * from './interfaces'
