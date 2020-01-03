@@ -53,6 +53,52 @@ describe('SoFetch', () => {
       return client.fetch('/fanclub').catch(fail)
     })
 
+    it('can have async request interceptors', async () => {
+      const client = new SoFetch<any>({
+        requestInterceptors: [
+          async config => {
+            config.headers = await new Headers({
+              SomeRandomHeader: 'foo',
+            })
+            return config
+          },
+        ],
+      })
+      fetchMock.getOnce('/fanclub', 200, {
+        headers: {
+          SomeRandomHeader: 'foo',
+        },
+      })
+
+      return client.fetch('/fanclub').catch(fail)
+    })
+
+    it('can have multiple async request interceptors', () => {
+      const client = new SoFetch<any>({
+        requestInterceptors: [
+          async config => {
+            config.headers = await new Headers({
+              SomeRandomHeader: 'foo',
+            })
+            return config
+          },
+          async config => {
+            const headerData = await config.headers.get('SomeRandomHeader')
+            config.headers.set('AnotherHeader', `${headerData}Bar`)
+            return config
+          },
+        ],
+      })
+      fetchMock.getOnce('/fanclub', 200, {
+        headers: {
+          SomeRandomHeader: 'foo',
+          AnotherHeader: 'fooBar',
+        },
+      })
+
+      return client.fetch('/fanclub').catch(fail)
+    })
+
     it('passes an empty headers obj if there are none', () => {
       const client = new SoFetch<any>({
         requestInterceptors: [

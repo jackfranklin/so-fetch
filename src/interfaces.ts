@@ -2,10 +2,11 @@ import SoFetchResponse from './response'
 
 export type RequestInterceptor = (
   config: IRequestInterceptorConfig,
-) => IRequestInterceptorConfig
+) => IRequestInterceptorConfig | Promise<IRequestInterceptorConfig>
+
 export type ResponseInterceptor<T> = (
   response: SoFetchResponse<T>,
-) => SoFetchResponse<T>
+) => SoFetchResponse<T> | Promise<SoFetchResponse<T>>
 
 export interface ISoFetchInitialisation<T> {
   requestInterceptors?: RequestInterceptor[]
