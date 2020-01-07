@@ -70,13 +70,19 @@ class SoFetch<T> {
       })
   }
 
+  public get(url: string, options: IFetchOptions = {}) {
+    return this.fetch(url, options)
+  }
+
   public post(
     url: string,
     postBody?: {},
     options?: IFetchOptions,
   ): Promise<SoFetchResponse<T>> {
     const headers = new Headers((options && options.headers) || {})
-    headers.set('Content-Type', 'application/json')
+    if (postBody) {
+      headers.set('Content-Type', 'application/json')
+    }
 
     return this.fetch(url, {
       method: 'POST',
@@ -92,12 +98,50 @@ class SoFetch<T> {
     options?: IFetchOptions,
   ): Promise<SoFetchResponse<T>> {
     const headers = new Headers((options && options.headers) || {})
-    headers.set('Content-Type', 'application/json')
+    if (postBody) {
+      headers.set('Content-Type', 'application/json')
+    }
 
     return this.fetch(url, {
       ...options,
       method: 'PUT',
-      body: JSON.stringify(postBody),
+      body: postBody ? JSON.stringify(postBody) : undefined,
+      headers,
+    })
+  }
+
+  public patch(
+    url: string,
+    postBody?: {},
+    options?: IFetchOptions,
+  ): Promise<SoFetchResponse<T>> {
+    const headers = new Headers((options && options.headers) || {})
+    if (postBody) {
+      headers.set('Content-Type', 'application/json')
+    }
+
+    return this.fetch(url, {
+      ...options,
+      method: 'PATCH',
+      body: postBody ? JSON.stringify(postBody) : undefined,
+      headers,
+    })
+  }
+
+  public del(
+    url: string,
+    postBody?: {},
+    options?: IFetchOptions,
+  ): Promise<SoFetchResponse<T>> {
+    const headers = new Headers((options && options.headers) || {})
+    if (postBody) {
+      headers.set('Content-Type', 'application/json')
+    }
+
+    return this.fetch(url, {
+      ...options,
+      method: 'DELETE',
+      body: postBody ? JSON.stringify(postBody) : undefined,
       headers,
     })
   }
