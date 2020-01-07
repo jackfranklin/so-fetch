@@ -116,6 +116,20 @@ describe('SoFetch', () => {
   })
 
   describe('fetch', () => {
+    it('can be called with just an iFetchOptions', () => {
+      const client = new SoFetch<any>()
+
+      fetchMock.getOnce('/fanclub', {
+        status: 200,
+        body: { name: 'Kanye West' },
+      })
+
+      return client.fetch({ url: '/fanclub' }).then(resp => {
+        expect(resp.data).toEqual({ name: 'Kanye West' })
+        expect(resp.status).toEqual(200)
+      })
+    })
+
     it('returns the original response with an extra data property', () => {
       const client = new SoFetch<any>()
 

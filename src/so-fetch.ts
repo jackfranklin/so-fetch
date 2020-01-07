@@ -46,9 +46,18 @@ class SoFetch<T> {
   }
 
   public fetch(
-    url: string,
+    options: string | IFetchOptions & { url: string },
+  ): Promise<SoFetchResponse<T>>
+  public fetch(url: string, options: IFetchOptions): Promise<SoFetchResponse<T>>
+
+  public fetch(
+    url: string | (IFetchOptions & { url: string }),
     options: IFetchOptions = {},
   ): Promise<SoFetchResponse<T>> {
+    if (typeof url !== 'string') {
+      options = url
+      url = url.url
+    }
     const fullUrl = this.rootUrl() + url
     const headers = new Headers(options.headers || {})
 
