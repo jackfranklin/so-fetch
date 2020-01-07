@@ -155,4 +155,79 @@ describe('SoFetch', () => {
       })
     })
   })
+
+  describe('put', () => {
+    it('puts the JSON with the right headers', () => {
+      const client = new SoFetch<any>()
+
+      fetchMock.once(
+        (url, request) => {
+          if (request.method === 'PUT' && url === '/fanclub') {
+            expect((request.headers as Headers).get('Content-Type')).toEqual(
+              'application/json',
+            )
+            return true
+          }
+          return false
+        },
+        {
+          status: 200,
+        },
+      )
+
+      return client.put('/fanclub', { name: 'Kanye West' }).then(resp => {
+        expect(resp.status).toEqual(200)
+      })
+    })
+  })
+
+  describe('patch', () => {
+    it('patches the JSON with the right headers', () => {
+      const client = new SoFetch<any>()
+
+      fetchMock.once(
+        (url, request) => {
+          if (request.method === 'PATCH' && url === '/fanclub') {
+            expect((request.headers as Headers).get('Content-Type')).toEqual(
+              'application/json',
+            )
+            return true
+          }
+          return false
+        },
+        {
+          status: 200,
+        },
+      )
+
+      return client.patch('/fanclub', { name: 'Kanye West' }).then(resp => {
+        expect(resp.status).toEqual(200)
+      })
+    })
+  })
+
+  describe('del', () => {
+    it('deletes the JSON with the right headers', () => {
+      const client = new SoFetch<any>()
+
+      fetchMock.once(
+        (url, request) => {
+          if (request.method === 'DELETE' && url === '/fanclub') {
+            expect((request.headers as Headers).get('Content-Type')).toEqual(
+              'application/json',
+            )
+            return true
+          }
+          return false
+        },
+        {
+          status: 204,
+        },
+      )
+
+      return client.del('/fanclub', { name: 'Kanye West' }).then(resp => {
+        expect(resp.status).toEqual(204)
+      })
+    })
+  })
 })
