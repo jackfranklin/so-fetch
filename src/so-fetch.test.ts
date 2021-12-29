@@ -155,4 +155,36 @@ describe('SoFetch', () => {
       })
     })
   })
+
+  describe('post', () => {
+    it('posts the formData with the right headers', () => {
+      const client = new SoFetch<any>()
+      const option = {
+        headers: new Headers({
+          'Content-Type': 'application/x-www-form-urlencoded',
+        }),
+      }
+
+      fetchMock.once(
+        (url, request) => {
+          if (request.method === 'POST' && url === '/fanclub') {
+            expect((request.headers as Headers).get('Content-Type')).toEqual(
+              'application/x-www-form-urlencoded',
+            )
+            return true
+          }
+          return false
+        },
+        {
+          status: 200,
+        },
+      )
+
+      return client
+        .post('/fanclub', { name: 'Kanye West' }, option)
+        .then(resp => {
+          expect(resp.status).toEqual(200)
+        })
+    })
+  })
 })

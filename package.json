@@ -23,7 +23,8 @@
       "^.+\\.tsx?$": "ts-jest"
     },
     "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(tsx?)$",
-    "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json", "node"]
+    "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json", "node"],
+    "testURL": "http://localhost/"
   },
   "devDependencies": {
     "@types/fetch-mock": "^6.0.1",
