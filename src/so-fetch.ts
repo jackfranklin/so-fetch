@@ -8,6 +8,10 @@ import {
 import parseResponse from './parse-response'
 import SoFetchResponse from './response'
 
+enum ContentType {
+  json = 'application/json',
+  formUrlencoded = 'application/x-www-form-urlencoded',
+}
 class SoFetch<T> {
   private requestInterceptors: RequestInterceptor[]
   private responseInterceptors: Array<ResponseInterceptor<T>>
@@ -21,6 +25,21 @@ class SoFetch<T> {
     this.requestInterceptors = requestInterceptors
     this.responseInterceptors = responseInterceptors
     this.rootUrl = rootUrl
+  }
+
+  /**
+   * check the content type and changes the request based on the different context
+   * @param contentType : content-type based on request headers
+   * @param requestBody : request body
+   * @returns : request body with proper context
+   */
+  public checkContentType(contentType?: string | null, requestBody?: {}) {
+    if (contentType === ContentType.formUrlencoded) {
+      return requestBody
+    } else if (contentType === ContentType.json) {
+      return requestBody ? JSON.stringify(requestBody) : undefined
+    }
+    return requestBody ? JSON.stringify(requestBody) : undefined
   }
 
   public applyRequestInterceptors(
@@ -76,13 +95,15 @@ class SoFetch<T> {
     options?: IFetchOptions,
   ): Promise<SoFetchResponse<T>> {
     const headers = new Headers((options && options.headers) || {})
-    headers.set('Content-Type', 'application/json')
-
+    if (headers.get('Content-Type') === null) {
+      // take default headers as application/json
+      headers.set('Content-Type', 'application/json')
+    }
     return this.fetch(url, {
       method: 'POST',
       ...options,
       headers,
-      body: postBody ? JSON.stringify(postBody) : undefined,
+      body: this.checkContentType(headers.get('Content-Type'), postBody),
     })
   }
 
@@ -92,12 +113,15 @@ class SoFetch<T> {
     options?: IFetchOptions,
   ): Promise<SoFetchResponse<T>> {
     const headers = new Headers((options && options.headers) || {})
-    headers.set('Content-Type', 'application/json')
+    if (headers.get('Content-Type') === null) {
+      // take default headers as application/json
+      headers.set('Content-Type', 'application/json')
+    }
 
     return this.fetch(url, {
       ...options,
       method: 'PUT',
-      body: JSON.stringify(postBody),
+      body: this.checkContentType(headers.get('Content-Type'), postBody),
       headers,
     })
   }
